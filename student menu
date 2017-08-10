@@ -1,0 +1,278 @@
+void program(){
+
+char choice_student;
+	
+while (choice_student!=7){
+	cout << "\n\n\t\t      [1] Change password";
+	cout << "\n\n\t\t      [2] View Course Offerings";
+	cout << "\n\n\t\t      [3] Add Class";
+	cout << "\n\n\t\t      [4] Remove Class";
+	cout << "\n\n\t\t      [5] View Class";
+	cout << "\n\n\t\t      [6] Log Out";
+	cout << "\n\n\n\t\t      Enter your choice: ";
+	cin >> choice_student;
+	
+	switch (choice_student){
+		case '1':
+			change_password();
+			break;
+		
+		case '2':
+			view_class();
+			break;
+		
+		case '3':
+			add_class();
+			break;
+		
+		case '4':
+			remove_class();
+			break;
+		
+		case '5':
+			view_schedule();
+			break;
+		
+		case '6':
+			exit(0);
+		
+		default:
+		cout << "\n\n\n\t\t      INVALID CHOICE!\n\n";
+	}
+}
+}
+
+
+void change_password(){
+	string studentpassword;
+	string newstudentpassword;
+	system("cls");
+	
+	cout << "\n\n\n\t\t   -------- DE LA SALLE UNIVERSITY --------";
+	cout << "\n\t\t               University Portal";
+	cout << "\n\n\t\t      Enter new password: ";
+	cin >> studentpassword;
+	cout << "\n\n\t\t      Re-enter password: ";
+	cin >> newstudentpassword;
+	
+	if (newstudentpassword==studentpassword){
+		studentpassword = newstudentpassword;
+		cout << "\n\n\t\t      Password updated!";
+		cout << "\n\n\n\t     ";
+		system("pause");
+		system("cls");
+		program();
+	}
+	
+	else {
+		cout << "\n\n\t\t      Incorrect password!";
+		cout << "\n\n\n\t     ";
+		system("pause");
+		system("cls");
+		program();
+	}
+}
+
+
+void add_class(){
+	string search;
+	int i;
+		cout << "\n\n\nADD CLASS";
+		cout << "\n\nEnter the course you want to add: ";
+		cin >> search;
+	
+		
+	for(i = 0; i < supremeclasscount ; i++){
+		if (all[i].subject == search){
+			cout << "Course: " << all[i].subject << endl;
+			cout << "Start Time: " << all[i].time << endl;
+			cout << "End Time: " << all[i].endtime << endl;
+			
+			strcpy(add[addclass].subject, all[i].subject);
+			add[addclass].endtime = all[i].endtime;
+			add[addclass].time = all[i].time;
+			addclass++;
+		}
+}
+
+	for(int z = 0; z < addclass; z++){
+		if(add[z].time == add[addclass].time){
+			cout << "\n     ***** You Cannot Add This Class *****\n";
+			cout << " --- There is a Class Already In This Time Slot ---\n\n";
+			addclass--;
+			break;
+		}
+							
+		else if((add[addclass].time > add[z].time) && (add[addclass].time < add[z].endtime)){
+			cout << "\n     ***** You Cannot Add This Class *****\n";
+			cout << " --- There is a Class Already In This Time Slot ---\n\n";
+			addclass--;
+			break;
+		}
+							
+		else if((add[addclass].endtime > add[z].time) && (add[addclass].endtime <= add[z].endtime)){
+			cout << "\n     ***** You Cannot Add This Class *****\n";
+			cout << " --- There is a Class Already In This Time Slot ---\n\n";
+			addclass--;
+			break;
+		}	
+	}
+	
+	//break;
+	
+	
+/*	else {
+			cout << "\nEntry not found!";
+	}	*/
+
+	
+	int w, u, highervalue, highervalueendtime;
+		char copy[10];	
+			for(w= 0; w < addclass; w++){
+				for(u = w + 1; u < addclass; u++){
+					if(add[w].time > add[u].time){
+						highervalue = add[w].time;
+						highervalueendtime = add[w].endtime;
+						strcpy(copy,add[w].subject);
+						add[w].time = add[u].time;
+						add[w].endtime = add[u].endtime;
+						strcpy(add[w].subject,add[u].subject);
+						add[u].time = highervalue;
+						strcpy(add[u].subject,copy);
+						add[u].endtime = highervalueendtime;
+					}
+				}
+			}
+}
+
+
+void remove_class(){
+	int i;
+	
+	if(addclass == 0){
+		cout << "  ***** Cannot Remove A Class *****\n\n";
+		cout << "   ----- Schedule is Empty -----   \n\n";
+	}
+	
+	else{
+		cout << " No. | Class Time Slot | Class Name\n";
+		cout << "-----------------------------------\n";
+	
+		for(i = 0; i < addclass ; i++){
+			if(add[i].time < 9){	
+				if((add[i].time < 9) && (add[i].endtime > 9)){
+					cout<<  i+1  <<" |    0" << add[i].time <<"00  -  "<<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+				}
+				
+				else
+					cout<<  i+1  <<" |    0" << add[i].time <<"00  -  0" <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";			
+			}	
+							
+			else if(add[i].time == 9){
+				cout<<  i+1  <<" |    0" << add[i].time <<"00  -  " <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+			}
+
+			else{
+				if(i+1 == 10){
+					cout<<  i+1  <<" |    " << add[i].time <<"00  -  " <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";	
+				}
+				
+				else
+					cout<<  i+1  <<" |    " << add[i].time <<"00  -  " <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+			}
+		}
+	}
+					
+	int remove_class;
+		cout << "\n\nEnter the course you want to remove: ";
+		cin >> remove_class;
+					
+		if( (remove_class < 0) || (remove_class > addclass)){
+			cout << "\n    ***** Invalid Input ***** \n";
+			cout << "--- Choice Is Not Among Options --- \n\n";		
+		}
+		
+		else{
+			int j;
+
+			for(j = remove_class -1; j < addclass; j++){
+				strcpy(add[j].subject, add[j + 1].subject);
+				add[j].time = add[j + 1].time;
+				add[j].endtime = add[j + 1].endtime;
+			}
+			
+		addclass--;
+		}
+}
+
+
+void view_class(){
+				int i;
+				cout<<"\t No. | Class Time Slot | Class Name\n";
+				cout<<"\t-----------------------------------\n";
+					for(i = 0; i < supremeclasscount ; i++){
+						
+							if(all[i].time < 9){	
+								if((all[i].time < 9) && (all[i].endtime > 9)){
+									cout<<  i+1  <<" |    0" << all[i].time <<"00  -  "<<all[i].endtime<<"00   |"<<all[i].subject<<"  \n";
+								
+								}
+								else
+									cout<<  i+1  <<" |    0" << all[i].time <<"00  -  0" <<all[i].endtime<<"00   |"<<all[i].subject<<"  \n";
+								
+							}	
+							else if(all[i].time == 9){
+									cout<<  i+1  <<" |    0" << all[i].time <<"00  -  " <<all[i].endtime<<"00   |"<<all[i].subject<<"  \n";
+								
+							
+							}
+							
+							else{
+									if(i+1 == 10)
+									{
+									cout<<  i+1  <<" |    " << all[i].time <<"00  -  " <<all[i].endtime<<"00   |"<<all[i].subject<<"  \n";
+										
+										
+									}
+									else
+									cout<<  i+1  <<" |    " << all[i].time <<"00  -  " <<all[i].endtime<<"00   |"<<all[i].subject<<"  \n";
+										
+								}
+					}
+				
+}
+
+
+void view_schedule(){
+	int i;
+				cout<<"\t No. | Class Time Slot | Class Name\n";
+				cout<<"\t-----------------------------------\n";
+					for(i = 0; i < addclass ; i++){
+						
+							if(add[i].time < 9){	
+								if((add[i].time < 9) && (add[i].endtime > 9)){
+									cout<<  i+1  <<" |    0" << add[i].time <<"00  -  "<<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+								
+								}
+								else
+									cout<<  i+1  <<" |    0" << add[i].time <<"00  -  0" <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+								
+							}	
+							else if(all[i].time == 9){
+									cout<<  i+1  <<" |    0" << add[i].time <<"00  -  " <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+								
+							
+							}
+							
+							else{
+									if(i+1 == 10)
+									{
+									cout<<  i+1  <<" |    " << add[i].time <<"00  -  " <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+										
+										
+									}
+									else
+									cout<<  i+1  <<" |    " << add[i].time <<"00  -  " <<add[i].endtime<<"00   |"<<add[i].subject<<"  \n";
+										
+								}
+					}
