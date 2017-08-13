@@ -2,8 +2,8 @@
 
       The purpose of this project is to make a university portal for the admin and students. It aims to make enrollment
       processes more convenient for the admin, as well as for the students. Admins can choose to add a course, remove a
-      course, view courses, and save courses under the course offerings. While students can choose to add a class, remove
-      a class, view their class schedules, and view the courses offered.
+      course, view courses, and save courses under the course offerings. On the other hand, students can choose to add 
+      classes, remove classes, view their class schedules, and view the courses offered.
 
 
                                                       
